@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+}
+
+<h2>Test</h2>
+
+
+
+
+<div class="progress">
+    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+        40%
+    </div>
+</div>
+
+
+<div class="row border">
+    <div class="col-sm-2 border" style="text-align:center">
+        <img style="width:50px;" src="/Content/Images/cook.png" />
+    </div>
+    <div class="col-sm-10 border">
+        <div class="col-sm-9 border">nazwa kucharza</div>
+        <div class="col-sm-3 border">level: 0</div>
+        <div class="col-sm-12 border">Cost 1231 tostów</div>
+        <div class="col-sm-12 border">Produces 1231 tost per second</div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+
+    </script>
+}
+
+
+
+backup styli
+
+
+@*<style>
+    div {
+        font-family: HelvLight;
+        user-select: none;
+    }
+
+    .tost {
+        width: 200px;
+        height: 150px;
+        margin-top: 100px;
+        margin-left: -50px;
+    }
+
+    #toggle {
+        width: 300px;
+        height: 220px;
+    }
+
+    div.RightUpgradesMainDiv {
+        position: relative;
+        width: 360px;
+        height: 60px;
+        margin-bottom: 20px;
+        /*border: 1px solid #73AD21;*/
+    }
+
+    div.RightUpgradesInfo {
+        position: absolute;
+        top: 0;
+        left: 60px;
+        width: 300px;
+        height: 60px;
+        margin-bottom: 20px;
+        /*border: 1px solid red;*/
+    }
+
+    div.RightLevelInfo {
+        position: absolute;
+        z-index: -5;
+        top: 0;
+        left: 0;
+        width: 60px;
+        height: 60px;
+        margin-bottom: 20px;
+        /*border: 1px solid green;*/
+    }
+
+    div #quests {
+        position: fixed;
+        left: 20%;
+        bottom: 40%;
+    }
+
+    .ui-progressbar-value {
+        font-family: HelvLight;
+        font-size: 13px;
+        font-weight: normal;
+        line-height: 18px;
+        padding-top: 3px;
+        text-align: left;
+    }
+</style>*@
+
+
+
+
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+
+        <script>
+            var toastIMGsmall = '<img style="width:20px; position:relative;" src="/Content/Images/toast.png"/>';
+            var cookIMG = '<img style="width:50px; position:relative;" src="/Content/Images/cook.png"/>';
+            var cheeseIMG = '<img style="width:50px; position:relative;" src="/Content/Images/cheese.png"/>';
+
+            var totalAmmount = 0;
+            var currentAmmount = 0;
+
+            var clickValue = 1;
+            var toastsPS = 0;
+
+            var msInterval = 1000;
+            var timer = { seconds: 0, minutes: 0, hours: 0 };
+
+            function myTimer() {
+                if (timer.seconds == 60) {
+                    timer.minutes++;
+                    timer.seconds = 0;
+                }
+                if (timer.minutes == 60) {
+                    timer.hours++;
+                    timer.minutes = 00;
+                }
+
+                $("#timer").html("Time: " + timer.hours.toString() + 'h ' + timer.minutes.toString() + 'min ' + timer.seconds.toString() + 's');
+            }
+
+
+            var game = setInterval(function () {
+                timer.seconds++;
+                myTimer();
+                currentAmmount += toastsPS;
+                totalAmmount += toastsPS;
+                gameUpdate();
+
+            }, msInterval);
+
+
+            var upgradeClick = function (id, name, cost, value, level, imgUpgrade) {
+                this.id = id;
+                this.name = name;
+                this.cost = cost;
+                this.value = value;
+                this.level = level;
+                this.imgUpgrade = imgUpgrade;
+
+                console.log($(imgUpgrade).attr('id'));
+                $('#upgrades').append('<div id="div' + id + '" class="upgradesMainDiv">' + imgUpgrade + '<div id="UPGinfo' + id + '" class="upgradesInfo"><p>' + name + '</p><p>Costs ' + cost + " " + toastIMGsmall + ' | produces ' + value + " " + toastIMGsmall + ' per second</p></div><div id="UPGlevel' + id + '" class="upgradesLEVEL"><p>' + level + '</p></div></div>');
+                $('#div'+id).click(function () {
+                    if (currentAmmount >= cost) {
+                        level++;
+                        $("#UPGlevel"+id).html("<p>" + level + "</p>");
+                        toastsPS += value;
+                        currentAmmount = currentAmmount - cost;
+                        cost += cost;
+                        $("#currentAmmount").html(currentAmmount + " TOASTS");
+                        $("#toastsps").html("Toasts per second: " + toastsPS);
+                        $("#UPGinfo" + id).html('<p>' + name + '</p><p>Costs ' + cost + " " + toastIMGsmall + ' | produces ' + value + " " + toastIMGsmall + ' per second</p>');
+                    }
+                    else {
+                        $("#flyingvalue")
+                        .prepend('<div style="padding-top:10px;color:red;">' + "Not enough" + " " + toastIMGsmall + '</div>')
+                        .fadeIn(4000)
+                        .css({ top: 200 })
+                        .animate({ top: '100' })
+                        .children(':first')
+                        .delay(200)
+                        .fadeOut(1000);
+                    }
+                });
+            }
+
+            function gameUpdate() {
+                $("#totaltoasts").html(toastIMGsmall + " Total toasts maked: " + totalAmmount);
+                $("#currentAmmount").html(currentAmmount + " TOASTS");
+                $("#clickvalue").html(toastIMGsmall + " Click value: " + clickValue);
+                $("#toastsps").html(toastIMGsmall + " Toasts per second: " + toastsPS);
+                $("#toastsps").html(toastIMGsmall + " Toasts per second: " + toastsPS);
+                //$("#test").html(name + " cost " + cost + "level " + level + " value " + value);
+
+            }
+
+            $(function () {
+                $("#toastclick").click(function () {
+                    currentAmmount += clickValue;
+                    totalAmmount += clickValue;
+
+                    $("#totaltoasts").html(toastIMGsmall + " Total toasts maked: " + totalAmmount);
+                    $("#currentAmmount").html(currentAmmount + " TOASTS");
+                    $("#flyingvalue")
+                        .prepend('<div style="padding-top:10px;">' + " + " + clickValue + " " + toastIMGsmall + '</div>')
+                        .fadeIn(4000)
+                        .css({ top: 200 })
+                        .animate({ top: '100' })
+                        .children(':first')
+                        .delay(200)
+                        .fadeOut(1000);
+                });
+
+                gameUpdate();
+                upgradeClick(1, "Cook", 10, 1, 0, cookIMG);
+                upgradeClick(2, "Extra Cheese", 50, 3, 0, cheeseIMG);
+
+            });
+
+
+
+
+
+
+
+        </script>
+    }*@
+
+
+@*        function upgradeClick(upgradeClickModel) {
+        this.upgradeClickModel = upgradeClickModel;
+        $('#upgrades').append('<div id="div' + upgradeClickModel.id + '" class="row border"><div class="col-xs-2 border">' + upgradeClickModel.imgUpgrade + '</div><div id="UPGinfo' + upgradeClickModel.id + '" class="col-xs-8 border"><p>' + upgradeClickModel.name + '</p><p>Costs ' + upgradeClickModel.cost + " " + toastIMGsmall + '</p><p> Produces ' + (upgradeClickModel.value * achievMultiplier) + " " + toastIMGsmall + ' per second</p></div><div id="UPGlevel' + upgradeClickModel.id + '" class="col-xs-2 border"; style="text-align:center">Level: ' + upgradeClickModel.level + '</div></div>');
+
+        $('#div' + upgradeClickModel.id).click(function () {
+            if (currentAmmount >= upgradeClickModel.cost) {
+                upgradeClickModel.level++;
+                $("#UPGlevel" + upgradeClickModel.id).html("<p>Level: " + upgradeClickModel.level + "</p>");
+                clickValue += upgradeClickModel.value * achievMultiplier;
+                currentAmmount = currentAmmount - upgradeClickModel.cost;
+                messageTop("#5f87c6", "- " + upgradeClickModel.cost + " " + toastIMGmedium);
+                upgradeClickModel.cost += upgradeClickModel.cost;
+                currentAmmountInfo();
+                clickValueInfo();
+                $("#UPGinfo" + upgradeClickModel.id).html('<p>' + upgradeClickModel.name + '</p><p>Costs ' + upgradeClickModel.cost + " " + toastIMGsmall + ' | produces ' + (upgradeClickModel.value * achievMultiplier) + " " + toastIMGsmall + ' per click</p>');
+            }
+            else {
+                messageRight("red", "Not enough" + " " + toastIMGsmall);
+            }
+        });
+    }
+
+
+    function upgradeProduction(upgradeModel) {
+        this.upgradeModel = upgradeModel;
+        $('#upgrades').append('<div id="div' + upgradeModel.id + '" class="row border"><div class="col-xs-2 border">' + upgradeModel.imgUpgrade + '</div><div id="UPGinfo' + upgradeModel.id + '" class="col-xs-8 border"><p>' + upgradeModel.name + '</p><p>Costs ' + upgradeModel.cost + " " + toastIMGsmall + '</p><p> Produces ' + (upgradeModel.value * achievMultiplier) + " " + toastIMGsmall + ' per second</p></div><div id="UPGlevel' + upgradeModel.id + '" class="col-xs-2 border"; style="text-align:center">Level: ' + upgradeModel.level + '</div></div>');
+        $('#div' + upgradeModel.id).click(function () {
+            if (currentAmmount >= upgradeModel.cost) {
+                upgradeModel.level++;
+                $("#UPGlevel" + upgradeModel.id).html("<p>Level: " + upgradeModel.level + "</p>");
+                toastsPS += upgradeModel.value * achievMultiplier;
+                currentAmmount = currentAmmount - upgradeModel.cost;
+                messageTop("#5f87c6", "- " + upgradeModel.cost + " " + toastIMGmedium);
+                upgradeModel.cost += upgradeModel.cost;
+                currentAmmountInfo();
+                toastsPsInfo();
+
+                $("#UPGinfo" + upgradeModel.id).html('<p>' + upgradeModel.name + '</p><p>Costs ' + upgradeModel.cost + " " + toastIMGsmall + ' | produces ' + (upgradeModel.value * achievMultiplier) + " " + toastIMGsmall + ' per second</p>');
+            }
+            else {
+                messageRight("red", "Not enough" + " " + toastIMGsmall);
+            }
+        });*@

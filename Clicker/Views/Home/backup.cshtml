@@ -1,0 +1,519 @@
+﻿@{
+    ViewBag.Title = "Clicker";
+}
+
+
+
+<style>
+    div {
+        font-family: HelvLight;
+        user-select: none;
+    }
+
+    .tost {
+        width: 200px;
+        height: 150px;
+        margin-top: 100px;
+        margin-left: -50px;
+    }
+
+    #toggle {
+        width: 300px;
+        height: 220px;
+    }
+
+    div.RightUpgradesMainDiv {
+        position: relative;
+        width: 330px;
+        height: 60px;
+        margin-bottom: 20px;
+        /*border: 1px solid #73AD21;*/
+        /*border: 3px double #8c8b8b;*/
+    }
+
+    div.RightUpgradesInfo {
+        position: absolute;
+        top: 0;
+        left: 60px;
+        width: 290px;
+        height: 60px;
+        margin-bottom: 20px;
+        /*border: 1px solid red;*/
+    }
+
+    div.RightLevelInfo {
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        right: 0px;
+        width: 60px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        /*border-radius: 25px;*/
+        /*font-size: 36px;*/
+        /*border: 1px solid green;*/
+        /*border: 1px dashed #8c8b8b;*/
+    }
+
+    div #quests {
+        position: fixed;
+        left: 20%;
+        bottom: 40%;
+    }
+
+    .ui-progressbar-value {
+        font-family: HelvLight;
+        font-size: 13px;
+        font-weight: normal;
+        line-height: 18px;
+        padding-top: 3px;
+        text-align: center;
+    }
+</style>
+
+<div class="form-group">
+    <div class="col-md-4" id="statistics">
+        <h3>Statistics <small>info</small></h3>
+        <p id="totaltoasts">Total toasts maked: 0</p>
+        <p id="clickvalue">Click value: 1</p>
+        <p id="totalclicks">Total clicks : 0</p>
+        <p id="toastsps">Toasts per second : 0</p>
+        <p id="timer">Time : 0h 0min 0s</p>
+        <p id="test"></p>
+        <div id="quests">
+            <h3>Quests</h3>
+            <h5>Production Quest</h5>
+            <div id="questBarProduction"></div>
+            <h5>Click Quest</h5>
+            <div id="questBarClick"></div>
+        </div>
+
+    </div>
+</div>
+<div class="col-md-4" id="game">
+    <h3 id="currentAmmount" style="top:50%;left:50%; font-size:32px;">0 TOASTS</h3>
+    <img id="toastclick" src="/Content/Images/toast.png" alt="toast" class="tost">
+    <div id="flyingvalue" style="position:absolute; top:50%; left:50%"></div>
+    <div id="flyingCost" style="position:absolute; top: 100%; left:50%"></div>
+    <div id="flyingAchievement" style="position:absolute; top:50%; left:20%"></div>
+</div>
+<div id="rightPanel" class="col-md-4">
+    <h3>Upgrade <small>Production or Click</small></h3>
+    <div id="upgrades"></div>
+    <h3 id="achievementHeading" style="visibility:hidden">Achievements</h3>
+    <div id="achievements"></div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        var toastIMGsmall = '<img style="width:20px; position:relative;" src="/Content/Images/toast.png"/>';
+        var toastIMGmedium = '<img style="width:60px; position:relative;" src="/Content/Images/toast.png"/>';
+        var cookIMG = '<img style="width:50px; position:relative;" src="/Content/Images/cook.png"/>';
+        var cheeseIMG = '<img style="width:50px; position:relative;" src="/Content/Images/cheese.png"/>';
+        var tomatoIMG = '<img style="height: 50px; position:relative;" src="/Content/Images/tomato.png"/>';
+        var cursorIMG = '<img style="height: 50px; position:relative;" src="/Content/Images/cursor.png"/>';
+
+        var achievement1IMG = '<img style="height: 50px; position:relative;" src="/Content/Images/toster1.png"/>';
+
+        var totalAmmount = 0;
+        var currentAmmount = 0;
+
+        var clickCount = 0;
+        var clickValue = 1;
+
+        var achievMultiplier = 1;
+
+        var toastsPS = 0;
+
+        var upgradeCost = 0;
+
+        var totalClicksInfo = function () {
+            $("#totalclicks").html(toastIMGsmall + " Total clicks : " + clickCount);
+        }
+
+        var clickValueInfo = function () {
+            $("#clickvalue").html(toastIMGsmall + " Toasts per click: " + clickValue);
+
+        }
+
+        var toastsPsInfo = function () {
+            $("#toastsps").html(toastIMGsmall + " Toasts per second: " + toastsPS);
+        }
+
+        var totalAmmountInfo = function () {
+            $("#totaltoasts").html(toastIMGsmall + " Total toasts maked: " + totalAmmount);
+        }
+
+        var currentAmmountInfo = function () {
+            $("#currentAmmount").html(currentAmmount + " " + toastIMGmedium);
+        }
+
+        var msInterval = 1000;
+        var timer = { seconds: 0, minutes: 0, hours: 0 };
+
+        function myTimer() {
+            if (timer.seconds == 60) {
+                timer.minutes++;
+                timer.seconds = 0;
+            }
+            if (timer.minutes == 60) {
+                timer.hours++;
+                timer.minutes = 00;
+            }
+
+            $("#timer").html("Time: " + timer.hours.toString() + 'h ' + timer.minutes.toString() + 'min ' + timer.seconds.toString() + 's');
+        }
+
+        var clickValueMessage = function () {
+            $("#flyingvalue")
+                .prepend('<div style="padding-top:10px;">' + " + " + clickValue + " " + toastIMGsmall + '</div>')
+                .fadeIn(7000)
+                .css({ top: 200 })
+                .animate({ top: '100' })
+                .children(':first')
+                .delay(200)
+                .fadeOut(1000)
+                .one();
+        }
+
+
+
+        var notEnoughMessage = function () {
+            $("#flyingvalue")
+                .prepend('<div style="padding-top:10px;color:red;">' + "Not enough" + " " + toastIMGsmall + '</div>')
+                .fadeIn(4000)
+                .css({ top: 200 })
+                .animate({ top: '100' })
+                .children(':first')
+                .delay(200)
+                .fadeOut(1000);
+        }
+
+        var achievementMessage = function () {
+            $("#flyingAchievement")
+                .prepend('<div style="padding-top:32px;left:0; color:blue; text-align: center">Congratulations! Achievement unlocked! <div style="text-align: center">Upgrades produces now twice ' + toastIMGsmall + '</div></div>')
+                .fadeIn(7000)
+                .css({ top: 200, left: 0 })
+                .animate({ top: 170, left: -370 })
+                .children(':first')
+                .delay(1000)
+                .fadeOut(7000)
+                .one();
+        }
+
+        var questClickMessage = function () {
+            $("#flyingAchievement")
+                .prepend('<div style="padding-top:32px;left:0; color:#f79422;">Congratulations! You have clicked ' + toastIMGsmall + ' ' + clickCount + ' times<div style="text-align: center">Your ' + toastIMGsmall + ' <b>per click</b> is doubled</div></div>')
+                .fadeIn(7000)
+                .css({ top: 200, left: 0 })
+                .animate({ top: 170, left: -370 })
+                .children(':first')
+                .delay(1000)
+                .fadeOut(7000)
+                .one();
+        }
+
+        var questProductionMessage = function () {
+            $("#flyingAchievement")
+                .prepend('<div style="padding-top:32px;left:0; color:green; text-align: center">Congratulations! You have made ' + totalAmmount + ' ' + toastIMGsmall + '<div style="text-align: center">Your total ' + toastIMGsmall + ' <b>production</b> is doubled</div></div>')
+                .fadeIn(7000)
+                .css({ top: 200, left: 0 })
+                .animate({ top: 170, left: -370 })
+                .children(':first')
+                .delay(1000)
+                .fadeOut(7000)
+                .one();
+        }
+
+        var questClickNeededAmmount = 10;
+        var questProductionNeededAmmount = 50;
+        var achievementUnlockNeededAmmount = 75;
+
+        var achievPercentClick = (totalAmmount / questClickNeededAmmount) * 100;
+
+        var game = setInterval(function () {
+            timer.seconds++;
+            myTimer();
+            currentAmmount += toastsPS;
+            totalAmmount += toastsPS;
+            gameUpdate();
+
+            achievementClickShow(questClickNeededAmmount);
+            achievementProductionShow(questProductionNeededAmmount);
+            achievementUnlockedShow(achievementUnlockNeededAmmount);
+
+            questClickProgress();
+            questProductionProgress();
+
+            achievementDisplay(achiev1);
+            achievementModel(achiev1);
+
+
+        }, msInterval);
+
+        //var achievPercent = (totalAmmount / questClickNeededAmmount) * 100;
+
+        function gameUpdate() {
+            totalAmmountInfo();
+            currentAmmountInfo();
+            clickValueInfo();
+            toastsPsInfo();
+            totalClicksInfo();
+
+            achievementToolTip(achiev1);
+
+            //$("#test").html(name + " cost " + cost + "level " + level + " value " + value);
+
+        }
+
+
+        var achievementModel = function (id, name, neededValue, bonus, imgAchievement) {
+            this.id = id;
+            this.name = name;
+            this.neededValue = neededValue;
+            this.bonus = bonus;
+            this.currentAmmount = currentAmmount;
+        }
+
+        var achiev1 = new achievementModel(5, "New Toster!", 50, 2, achievement1IMG);
+
+        //var achievementDisplay = function (achievementModel) {
+        //    this.achievementModel = achievementModel;
+
+        //    if (currentAmmount >= 25)
+        //    {
+        //        if ($("#achievements").is(':empty')) {
+        //            $("#achievements").append('<div id="achievDiv' + achievementModel.id + '"> ' + achievement1IMG + '</div>');
+        //            $("#achievDiv" + achievementModel.id).css('opacity', '0.2')
+        //            $("#achievementHeading").css('visibility', 'visible');
+        //        }
+        //    }
+
+        //}
+
+        var upgradeClickPS = function (id, name, cost, value, level, imgUpgrade) {
+            this.id = id;
+            this.name = name;
+            this.cost = cost;
+            this.value = value;
+            this.level = level;
+            this.imgUpgrade = imgUpgrade;
+
+            var costMessage = function () {
+                $("#flyingCost")
+                   .prepend('<div id="#flyingCost" style="color:#5f87c6; font-size:32px">' + "- " + cost + " " + toastIMGmedium + '</div>')
+                   .fadeIn(4000)
+                   .css({ top: 14, right: 0 })
+                   .children(':first')
+                   .delay(200)
+                   .fadeOut(1000)
+                   .one();
+            }
+            $('#upgrades').append('<div id="div' + id + '" class="RightUpgradesMainDiv">' + imgUpgrade + '<div id="UPGinfo' + id + '" class="RightUpgradesInfo"><p>' + name + '</p><p>Costs ' + cost + " " + toastIMGsmall + ' | produces ' + (value * achievMultiplier) + " " + toastIMGsmall + ' per second</p></div><div id="UPGlevel' + id + '" class="RightLevelInfo";><p>Level: ' + level + '</p></div></div>');
+            $('#div' + id).click(function () {
+                if (currentAmmount >= cost) {
+                    level++;
+                    $("#UPGlevel" + id).html("<p>Level: " + level + "</p>");
+                    toastsPS += value * achievMultiplier;
+                    currentAmmount = currentAmmount - cost;
+                    costMessage();
+                    cost += cost;
+                    currentAmmountInfo();
+                    toastsPsInfo();
+
+                    $("#UPGinfo" + id).html('<p>' + name + '</p><p>Costs ' + cost + " " + toastIMGsmall + ' | produces ' + (value * achievMultiplier) + " " + toastIMGsmall + ' per second</p>');
+
+                }
+                else {
+                    notEnoughMessage();
+
+                }
+            });
+
+        }
+
+        var upgradeClickPC = function (id, name, cost, value, level, imgUpgrade) {
+            this.id = id;
+            this.name = name;
+            this.cost = cost;
+            this.value = value;
+            this.level = level;
+            this.imgUpgrade = imgUpgrade;
+
+            var costMessage = function () {
+                $("#flyingCost")
+                   .prepend('<div id="#flyingCost" style="color:#5f87c6; font-size:32px">' + "- " + cost + " " + toastIMGmedium + '</div>')
+                   .fadeIn(4000)
+                   .css({ top: 14, right: 0 })
+                   .children(':first')
+                   .delay(200)
+                   .fadeOut(1000)
+                   .one();
+            }
+
+            $('#upgrades').append('<div id="div' + id + '" class="RightUpgradesMainDiv">' + imgUpgrade + '<div id="UPGinfo' + id + '" class="RightUpgradesInfo"><p>' + name + '</p><p>Costs ' + cost + " " + toastIMGsmall + ' | produces ' + (value * achievMultiplier) + " " + toastIMGsmall + ' per click</p></div><div id="UPGlevel' + id + '" class="RightLevelInfo";><p>Level: ' + level + '</p></div></div>');
+            $('#div' + id).click(function () {
+                if (currentAmmount >= cost) {
+                    level++;
+                    $("#UPGlevel" + id).html("<p>Level: " + level + "</p>");
+                    clickValue += value * achievMultiplier;
+                    currentAmmount = currentAmmount - cost;
+                    costMessage();
+                    cost += cost;
+                    currentAmmountInfo();
+                    clickValueInfo();
+                    $("#UPGinfo" + id).html('<p>' + name + '</p><p>Costs ' + cost + " " + toastIMGsmall + ' | produces ' + (value * achievMultiplier) + " " + toastIMGsmall + ' per click</p>');
+                }
+                else {
+                    notEnoughMessage();
+                }
+            });
+        }
+
+
+        function achievementClickShow(neededValueToDisplay) {
+            if (clickCount >= questClickNeededAmmount) {
+
+                clickValue *= 2;
+                if (questClickNeededAmmount <= 100) {
+                    questClickNeededAmmount = questClickNeededAmmount += 30;
+
+                }
+                else {
+                    questClickNeededAmmount = questClickNeededAmmount += 200;
+                }
+                questClickMessage();
+            }
+        }
+
+
+        function achievementProductionShow(neededValueToDisplay) {
+            if (totalAmmount >= questProductionNeededAmmount) {
+
+                toastsPS *= 2;
+                questProductionNeededAmmount = questProductionNeededAmmount * 5;
+                questProductionMessage();
+            }
+        }
+
+        //function achievementUnlockedShow(neededValueToDisplay) {
+        //    if (totalAmmount >= achievementUnlockNeededAmmount) {
+
+        //        achievMultiplier *= 2;
+        //        toastsPS *= achievMultiplier;
+        //        clickValue *= achievMultiplier;
+        //        achievementUnlockNeededAmmount = achievementUnlockNeededAmmount * 10;
+        //        achievementMessage();
+        //        $("#achievDiv" + achievementModel.id).css('opacity', '0.2')
+        //    }
+        //}
+
+
+        function questProductionProgress() {
+            $("#questBarProduction").progressbar({
+                min: 0,
+                value: totalAmmount,
+                max: questProductionNeededAmmount,
+
+            })
+                .width(700)
+                .children('.ui-progressbar-value')
+                .html(((totalAmmount / questProductionNeededAmmount) * 100).toPrecision(2) + ' % ')
+                .css("display", "block")
+                .css({ 'background': '#2ab733' })
+                .height(50);
+        }
+
+        function questClickProgress() {
+            $("#questBarClick").progressbar({
+                min: 0,
+                value: clickCount,
+                max: questClickNeededAmmount, // 50, co petle *5
+            })
+                .width(700)
+                .children('.ui-progressbar-value')
+                .html(((clickCount / questClickNeededAmmount) * 100).toPrecision(2) + ' % ')
+                .css("display", "block")
+                .css({ 'background': '#f79422' })
+                .height(50);
+
+        }
+
+        function achievementToolTip(achievementModel) {
+            this.achievementModel = achievementModel
+
+            if (totalAmmount < achievementModel.neededValue) {
+                $("#achievDiv" + achievementModel.id).tooltip({
+                    content: totalAmmount + " / " + achievementModel.neededValue + " to get bonus!"
+                });
+            }
+            else if (totalAmmount == achievementModel.neededValue) {
+                $("#achievDiv" + achievementModel.id).tooltip({
+                    content: "Done!"
+                }).css('opacity', '1.0');
+
+            }
+            else {
+                $("#achievDiv" + achievementModel.id).tooltip({ content: "Upgrades produces 2x more" });
+            }
+
+        }
+
+        function achievementDisplay(achievementModel) {
+            this.achievementModel = achievementModel;
+
+            if (currentAmmount >= 25) {
+                if ($("#achievements").is(':empty')) {
+                    $("#achievements").append('<div id="achievDiv' + achievementModel.id + '" title=""> ' + achievement1IMG + '</div>');
+                    $("#achievDiv" + achievementModel.id).css('opacity', '0.2')
+                    $("#achievementHeading").css('visibility', 'visible');
+
+                };
+            }
+
+        }
+
+        $(function () {
+            $("#toastclick").click(function () {
+                currentAmmount += clickValue;
+                totalAmmount += clickValue;
+                clickCount++;
+                totalAmmountInfo();
+                toastsPsInfo();
+                totalClicksInfo();
+                currentAmmountInfo();
+                clickValueMessage();
+
+                achievementClickShow(questClickNeededAmmount);
+                achievementProductionShow(questProductionNeededAmmount);
+
+                //achievementUnlockedShow(achievementUnlockNeededAmmount);
+
+                questProductionProgress();
+                questClickProgress();
+
+                achievementDisplay(achiev1);
+
+            });
+
+            gameUpdate();
+            upgradeClickPS(1, "Cook", 10, 1, 0, cookIMG);
+            upgradeClickPS(2, "Extra Cheese", 50, 3, 0, cheeseIMG);
+            upgradeClickPS(3, "Extra Tomato", 75, 5, 0, tomatoIMG);
+            upgradeClickPC(4, "Cursor", 100, 1, 0, cursorIMG);
+
+
+
+        });
+
+    </script>
+}

@@ -1,0 +1,87 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+
+/* custom css*/
+
+div {
+    font-family: HelvLight;
+    user-select: none;
+}
+
+.tost {
+    width: 200px;
+    height: 150px;
+}
+
+#toggle {
+    width: 300px;
+    height: 220px;
+}
+
+
+/*div.RightUpgradesMainDiv {
+    position: relative;
+    width: 330px;
+    height: 60px;
+    margin-bottom: 20px;
+    /*border: 1px solid #73AD21;*/
+    /*border: 3px double #8c8b8b;*/
+}*/
+
+/*div.RightUpgradesInfo {
+    position: absolute;
+    top: 0;
+    left: 60px;
+    width: 290px;
+    height: 60px;
+    margin-bottom: 20px;
+    /*border: 1px solid red;*/
+}*/
+
+/*div.RightLevelInfo {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0px;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    /*border-radius: 25px;*/
+    /*font-size: 36px;*/
+    /*border: 1px solid green;*/
+    /*border: 1px dashed #8c8b8b;*/
+}*/
+
+.ui-progressbar-value {
+    font-family: HelvLight;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 18px;
+    padding-top: 3px;
+    text-align: center;
+}
