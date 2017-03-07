@@ -211,18 +211,19 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\UpgradesController.cs" />
+    <Compile Include="ControllersAPI\UpgradesController.cs" />
+    <Compile Include="Data\ClickerDb.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703061418460_Initial.cs" />
-    <Compile Include="Migrations\201703061418460_Initial.Designer.cs">
-      <DependentUpon>201703061418460_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201703071306231_Initial.cs" />
+    <Compile Include="Migrations\201703071306231_Initial.Designer.cs">
+      <DependentUpon>201703071306231_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ClickerContext.cs" />
-    <Compile Include="Models\ClickerModel.cs" />
+    <Compile Include="Models\AchievementModel.cs" />
+    <Compile Include="Models\UpgradeModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -235,25 +236,33 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\ai.0.15.0-build58334.js" />
-    <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Achievement.js" />
+    <Content Include="Scripts\GameMain.js" />
+    <Content Include="Scripts\GameSettings.js" />
+    <Content Include="Scripts\GameInitialization.js" />
+    <Content Include="Scripts\Libraries\ai.0.15.0-build58334.js" />
+    <Content Include="Scripts\Libraries\ai.0.15.0-build58334.min.js" />
+    <Content Include="Scripts\Libraries\bootstrap.js" />
+    <Content Include="Scripts\Libraries\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\_references.js" />
+    <None Include="Scripts\Libraries\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Libraries\jquery-1.10.2.js" />
+    <Content Include="Scripts\Libraries\jquery-1.10.2.min.js" />
+    <None Include="Scripts\Libraries\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.min.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\Libraries\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Libraries\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Notifications.js" />
+    <Content Include="Scripts\Libraries\respond.js" />
+    <Content Include="Scripts\Libraries\respond.min.js" />
+    <Content Include="Scripts\Libraries\_references.js" />
+    <Content Include="Scripts\Quest.js" />
+    <Content Include="Scripts\Toast.js" />
+    <Content Include="Scripts\Upgrade.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -299,11 +308,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\Libraries\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703061418460_Initial.resx">
-      <DependentUpon>201703061418460_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703071306231_Initial.resx">
+      <DependentUpon>201703071306231_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
