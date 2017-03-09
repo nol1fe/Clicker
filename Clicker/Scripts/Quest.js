@@ -45,7 +45,7 @@ function questProgress(selector, valueInPercentage) {
         $(selector).animate().html(valueInPercentage.toPrecision(3) + "%");
     }
     else {
-        $(selector).animate().html('<span style="text-align:center">Success!</span>');
+        $(selector).animate().html('<span>Success!</span>');
     }
 
 }
