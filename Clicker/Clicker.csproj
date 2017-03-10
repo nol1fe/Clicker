@@ -216,9 +216,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703071306231_Initial.cs" />
-    <Compile Include="Migrations\201703071306231_Initial.Designer.cs">
-      <DependentUpon>201703071306231_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201703091249498_Initial.cs" />
+    <Compile Include="Migrations\201703091249498_Initial.Designer.cs">
+      <DependentUpon>201703091249498_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -265,7 +265,9 @@
     <Content Include="Scripts\Quest.js" />
     <Content Include="Scripts\Toast.js" />
     <Content Include="Scripts\Upgrade.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -313,8 +315,8 @@
     <Content Include="Scripts\Libraries\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703071306231_Initial.resx">
-      <DependentUpon>201703071306231_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703091249498_Initial.resx">
+      <DependentUpon>201703091249498_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
