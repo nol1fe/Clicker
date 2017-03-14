@@ -87,9 +87,19 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#panelRight" href="#upgradesPanel">Upgrade <small>production</small></a>
                         </h4>
-                        <span id="loadingSpan" style="margin-left:45%"><img class="gif" style="height:50px" src="/Content/Images/ajax-loader.gif"></span>
                     </div>
                     <div id="upgradesPanel" class="panel-collapse collapse in">
+                        <span style="margin-left:45%"><img class="gif" style="height:50px" src="/Content/Images/ajax-loader.gif"></span>
+                    </div>
+                </div>
+                <div class="panel panel-default" id="achievementsContainer">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#panelRight" href="#achievementPanel">Achievements</a>
+                        </h4>
+                    </div>
+                    <div id="achievementsPanel" class="panel-collapse collapse in">
+                        <span style="margin-left:45%"><img class="gif" style="height:50px" src="/Content/Images/ajax-loader.gif"></span>
                     </div>
                 </div>
             </div>
@@ -101,17 +111,14 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
 
-    <script src="~/Scripts/GameSettings.js"></script>
-    <script src="~/Scripts/GameMain.js"></script>
-    <script src="~/Scripts/GameInitialization.js"></script>
-    <script src="~/Scripts/Notifications.js"></script>
-    <script src="~/Scripts/Toast.js"></script>
-    <script src="~/Scripts/Upgrade.js"></script>
-    <script src="~/Scripts/Quest.js"></script>
-    <script src="~/Scripts/Achievement.js"></script>
+
+    <script src="~/Scripts/ViewLogic.js"></script>
+    <script src="~/Scripts/CoreLogic.js"></script>
+    <script src="~/Scripts/ApiLogic.js"></script>
 }

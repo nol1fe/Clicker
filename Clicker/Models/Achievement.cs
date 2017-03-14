@@ -15,5 +15,7 @@ namespace Clicker.Models
         public string ImgUrl { get; set; }
         public string Description { get; set; }
 
+        public bool Done { get; set; }
+
     }
 }

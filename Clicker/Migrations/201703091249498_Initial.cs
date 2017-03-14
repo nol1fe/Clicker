@@ -18,7 +18,7 @@ namespace Clicker.Migrations
                         Cost = c.Int(nullable: false),
                         ImgUrl = c.String(),
                         Description = c.String(),
-                    })
+                     })
                 .PrimaryKey(t => t.Id);
             
             CreateTable(

@@ -178,3 +178,4 @@ D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.dll
 D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.pdb
 D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.Migrations.Initial.resources
 D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.csproj.GenerateResource.Cache
+D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.Migrations.AchievementUpdate.resources
