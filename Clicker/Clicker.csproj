@@ -213,24 +213,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="ControllersAPI\UpgradesController.cs" />
-    <Compile Include="Data\ClickerDb.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703091249498_Initial.cs" />
-    <Compile Include="Migrations\201703091249498_Initial.Designer.cs">
-      <DependentUpon>201703091249498_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703131424599_AchievementUpdate.cs" />
-    <Compile Include="Migrations\201703131424599_AchievementUpdate.Designer.cs">
-      <DependentUpon>201703131424599_AchievementUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Achievement.cs" />
-    <Compile Include="Models\GameSettings.cs" />
-    <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\Upgrade.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -315,12 +301,18 @@
     <Content Include="Scripts\libs\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703091249498_Initial.resx">
-      <DependentUpon>201703091249498_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703131424599_AchievementUpdate.resx">
-      <DependentUpon>201703131424599_AchievementUpdate.cs</DependentUpon>
-    </EmbeddedResource>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{9BFD0457-BB12-4BE4-B1FC-64F75676B537}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{68bff822-7de2-4923-9a2c-3c7053aad6e3}</Project>
+      <Name>Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{ad559948-8243-4a45-afe5-f845b98c4dcc}</Project>
+      <Name>Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

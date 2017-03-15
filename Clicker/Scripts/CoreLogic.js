@@ -230,7 +230,7 @@ function achievementInitialization() {
 //display panel
 var showAchievements = false;
 function achievementDisplay() {
-    if (totalAmmount > 25 && showAchievements == false) {
+    if (totalAmmount > 1 && showAchievements == false) {
         $("#achievementsContainer").show();
         console.log("wykonane");
         showAchievements = true;

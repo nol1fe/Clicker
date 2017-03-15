@@ -176,6 +176,9 @@ D:\GitHub\Clicker\Clicker\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.csprojResolveAssemblyReference.cache
 D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.dll
 D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.pdb
-D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.Migrations.Initial.resources
-D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.csproj.GenerateResource.Cache
-D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.Migrations.AchievementUpdate.resources
+D:\GitHub\Clicker\Clicker\bin\DataAccess.dll
+D:\GitHub\Clicker\Clicker\bin\Entities.dll
+D:\GitHub\Clicker\Clicker\bin\Services.dll
+D:\GitHub\Clicker\Clicker\bin\DataAccess.pdb
+D:\GitHub\Clicker\Clicker\bin\Entities.pdb
+D:\GitHub\Clicker\Clicker\bin\Services.pdb

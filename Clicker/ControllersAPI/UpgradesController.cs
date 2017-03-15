@@ -1,5 +1,6 @@
-﻿using Clicker.Data;
-using Clicker.Models;
+﻿using Clicker.Models;
+using DataAccess;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
