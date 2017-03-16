@@ -6,15 +6,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Claims;
+using DataAccess;
+using System.Data.Entity;
 
 namespace Services
 {
     public class ApplicationUserStore : IUserStore<User, int>, IUserClaimStore<User, int>, IUserLoginStore<User, int>, IUserRoleStore<User, int>, IUserPasswordStore<User, int>, IUserTwoFactorStore<User, int>, IUserEmailStore<User, int>, IUserLockoutStore<User, int>, IUserSecurityStampStore<User, int>
     {
-        //tutaj musimy sobie dodac teraz kontext tylko najpierw musimy go wyciagnac z projektu kliker do osobnego
+        
+        private ClickerDb context;
         public ApplicationUserStore()
         {
-            //tutaj go przekazemy przez konstruktor i zainicjalizujemy a te metody wszystkie na dole beda go uzywac
+            context = new ClickerDb();
+        }
+
+        public Task CreateAsync(User user)
+        {
+            context.Users.Add(user);
+
+         
+            return context.SaveChangesAsync();
+        }
+
+        public Task DeleteAsync(User user)
+        {
+     
+            context.Users.Remove(user);
+
+          //  context.Configuration.ValidateOnSaveEnabled = false;
+
+            return context.SaveChangesAsync();
         }
 
         public Task AddClaimAsync(User user, Claim claim)
@@ -32,21 +53,6 @@ namespace Services
             throw new NotImplementedException();
         }
 
-        public Task CreateAsync(User user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAsync(User user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<User> FindAsync(UserLoginInfo login)
         {
             throw new NotImplementedException();
@@ -54,32 +60,35 @@ namespace Services
 
         public Task<User> FindByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            return context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
         }
 
         public Task<User> FindByIdAsync(int userId)
         {
-            throw new NotImplementedException();
+            return context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
         public Task<User> FindByNameAsync(string userName)
         {
-            throw new NotImplementedException();
+            return context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
         }
 
         public Task<int> GetAccessFailedCountAsync(User user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(0);
         }
 
         public Task<IList<Claim>> GetClaimsAsync(User user)
         {
-            throw new NotImplementedException();
+            var result = new List<Claim>();
+            return Task.FromResult(result as IList<Claim>);
         }
 
         public Task<string> GetEmailAsync(User user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(user.UserName);
+
         }
 
         public Task<bool> GetEmailConfirmedAsync(User user)
@@ -89,12 +98,12 @@ namespace Services
 
         public Task<bool> GetLockoutEnabledAsync(User user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(user.LockoutEnabled);
         }
 
         public Task<DateTimeOffset> GetLockoutEndDateAsync(User user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new DateTimeOffset(DateTime.Now.AddDays(-1)));
         }
 
         public Task<IList<UserLoginInfo>> GetLoginsAsync(User user)
@@ -104,22 +113,23 @@ namespace Services
 
         public Task<string> GetPasswordHashAsync(User user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(user.PasswordHash);
         }
 
         public Task<IList<string>> GetRolesAsync(User user)
         {
-            throw new NotImplementedException();
+            var roles = new List<string>();
+            return Task.FromResult(roles as IList<string>);
         }
 
         public Task<string> GetSecurityStampAsync(User user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(user.SecurityStamp);
         }
 
         public Task<bool> GetTwoFactorEnabledAsync(User user)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(false);
         }
 
         public Task<bool> HasPasswordAsync(User user)
@@ -159,7 +169,8 @@ namespace Services
 
         public Task SetEmailAsync(User user, string email)
         {
-            throw new NotImplementedException();
+            user.Email = email;
+            return Task.FromResult<object>(null);
         }
 
         public Task SetEmailConfirmedAsync(User user, bool confirmed)
@@ -169,7 +180,8 @@ namespace Services
 
         public Task SetLockoutEnabledAsync(User user, bool enabled)
         {
-            throw new NotImplementedException();
+            user.LockoutEnabled = enabled;
+            return Task.FromResult<object>(null);
         }
 
         public Task SetLockoutEndDateAsync(User user, DateTimeOffset lockoutEnd)
@@ -179,12 +191,15 @@ namespace Services
 
         public Task SetPasswordHashAsync(User user, string passwordHash)
         {
-            throw new NotImplementedException();
+            user.PasswordHash = passwordHash;
+            return Task.FromResult<object>(null);
+            
         }
 
         public Task SetSecurityStampAsync(User user, string stamp)
         {
-            throw new NotImplementedException();
+            user.SecurityStamp = stamp;
+            return Task.FromResult(true);
         }
 
         public Task SetTwoFactorEnabledAsync(User user, bool enabled)
@@ -196,5 +211,11 @@ namespace Services
         {
             throw new NotImplementedException();
         }
+
+
+        public void Dispose()
+        {
+        }
+
     }
 }

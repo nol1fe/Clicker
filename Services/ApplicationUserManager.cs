@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DataAccess;
+using Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -34,10 +35,10 @@ namespace Services
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
+                RequireNonLetterOrDigit = false,
                 RequireDigit = true,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults
@@ -57,8 +58,8 @@ namespace Services
                 BodyFormat = "Your security code is {0}"
             });
 
-            //manager.EmailService = new EmailService();
-            //manager.SmsService = new SmsService();
+            manager.EmailService = new EmailService();
+            manager.SmsService = new SmsService();
 
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)

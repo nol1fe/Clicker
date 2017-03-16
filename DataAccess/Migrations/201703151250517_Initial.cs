@@ -1,4 +1,4 @@
-namespace Clicker.Migrations
+namespace DataAccess.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -18,7 +18,8 @@ namespace Clicker.Migrations
                         Cost = c.Int(nullable: false),
                         ImgUrl = c.String(),
                         Description = c.String(),
-                     })
+                        Done = c.Boolean(nullable: false),
+                    })
                 .PrimaryKey(t => t.Id);
             
             CreateTable(

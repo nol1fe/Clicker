@@ -27,9 +27,12 @@ namespace Entities
 
         public string Email { get; set; }
 
-        public string Password { get; set; }
-
         public string PasswordHash { get; set; }
+
+        public string SecurityStamp { get; set; }
+
+        public bool LockoutEnabled { get; set; }
+
 
     }
 }
