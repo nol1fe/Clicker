@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Clicker.Models
+namespace Entities
 {
     public class Upgrade
     {
@@ -18,10 +13,5 @@ namespace Clicker.Models
         public string ImgUrl { get; set; }
         public int UpgradeType { get; set; }
 
-    }
-
-    public class ClickerDb : DbContext
-    {
-        public DbSet<Upgrade> Upgrades { get; set; }
     }
 }
