@@ -1,4 +1,36 @@
-﻿var ApiLogic = (function($) {
+﻿var ApiLogic = (function ($) {
+ 
+    function getUserGameState(onSuccess, userId) {
+        $.ajax({
+            url: 'api/gamestates/GetGameStateByUserId',
+            data: {
+                userId: userId,
+            },
+            dataType: "json",
+            complete: function () {
+                $("#TUTAJ LOADING SPAN NA CAŁĄ STRONĘ").hide()
+            },
+            success: function (data) {
+
+                onSuccess(data);
+            }
+        });
+    }
+
+    function saveGameState(gameState, userId) {
+        $.ajax({
+            type: "POST",
+            url: 'api/GameStates/PostGameState?userId=' + userId,
+            data: gameState,
+            success: function (data) {
+
+                alert('tak');
+                
+            }
+            
+        });
+    }
+
 
     function getUpgrades (onSuccess) {
         $.ajax({
@@ -38,7 +70,9 @@
     }
 
     return {
+        getUserGameState: getUserGameState,
         getAchievements: getAchievements,
-        getUpgrades: getUpgrades
+        getUpgrades: getUpgrades,
+        saveGameState: saveGameState
     }
 }(jQuery));

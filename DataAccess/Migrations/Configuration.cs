@@ -25,9 +25,9 @@ namespace DataAccess.Migrations
 
             context.Achievements.AddOrUpdate(a => a.Name,
 
-                new Achievement { Id = 1, Name = "Toster", Cost = 2500, Value = 1, Level = 0, ImgUrl = "/Content/Images/toster1.png", Description = "Bonus! +1 To all upgrades", Done = false },
-                new Achievement { Id = 2, Name = "Magic Toster", Cost = 30000, Value = 2, Level = 0, ImgUrl = "/Content/Images/toster2.png", Description = "Super bonus! +2 To all upgrades", Done = false },
-                new Achievement { Id = 3, Name = "Epic Toster", Cost = 200000, Value = 5, Level = 0, ImgUrl = "/Content/Images/toster3.png", Description = "Epic bonus! +5 To all upgrades", Done = false }
+                new Achievement { Id = 1, Name = "Toster", Cost = 2500, Value = 1, ImgUrl = "/Content/Images/toster1.png", Description = "Bonus! +1 To all upgrades", Done = false },
+                new Achievement { Id = 2, Name = "Magic Toster", Cost = 30000, Value = 2, ImgUrl = "/Content/Images/toster2.png", Description = "Super bonus! +2 To all upgrades", Done = false },
+                new Achievement { Id = 3, Name = "Epic Toster", Cost = 200000, Value = 5, ImgUrl = "/Content/Images/toster3.png", Description = "Epic bonus! +5 To all upgrades", Done = false }
 
 
                 );

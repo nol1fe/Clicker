@@ -3,6 +3,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities
 {
@@ -19,8 +21,7 @@ namespace Entities
             return userIdentity;
         }
 
-
-
+        [Key]
         public int Id { get; set; }
 
         public string UserName { get; set; }
@@ -32,7 +33,6 @@ namespace Entities
         public string SecurityStamp { get; set; }
 
         public bool LockoutEnabled { get; set; }
-
-
+                    
     }
 }

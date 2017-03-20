@@ -1,8 +1,7 @@
 ﻿var CoreLogic = (function ($, ApiLogic, ViewLogic) {
 
-    var totalAmmount = 0;
-    var currentAmmount = 10000;
-
+    var gameState;
+    
     var toastsPS = 0;
 
     var clickCount = 0;
@@ -15,6 +14,7 @@
     var achievementUnlockNeededAmmount = 5000;
 
     var mainToast = $("#toastclick");
+    var userId = $("#userId").val();
 
     var upgradeList = [];
     var achievementList = [];
@@ -43,6 +43,11 @@
 
         });
         
+        $("#saveGame").on("click", function () {
+            ApiLogic.saveGameState(gameState, userId);
+        });
+        
+
         mainToast.on("click", mainToastLogic);
         mainToast.on("click", questClickHandling);
 
@@ -91,14 +96,19 @@
             divCounter = 0;
         }
     }
-
     function gameInitialization() {
+        ApiLogic.getUserGameState(UserGameStateOnSuccess, userId);
+
         ApiLogic.getUpgrades(UpgradesOnSuccess);
         ApiLogic.getAchievements(AchievementsOnSuccess)
 
         
         upgradeDisplay();
 
+    }
+
+    function UserGameStateOnSuccess(data) {
+        gameState = data;
     }
 
     function UpgradesOnSuccess(data) {
@@ -109,21 +119,20 @@
     function AchievementsOnSuccess(data) {
         achievementList = data;
         achievementInitialization();
-        console.log(achievementList);
-        console.log("zainicjalizowano i załadowano");
-
     }
 
     setInterval(function () {
         timer.seconds++;
         myTimer();
-        currentAmmount += toastsPS;
-        totalAmmount += toastsPS;
+        gameState.CurrentAmmount += toastsPS;
+        gameState.TotalAmmount += toastsPS;
         questProductionCount += toastsPS;
         gameUpdate();
              
         questProductionShowMessage(questProductionCost);
         questClickShowMessage(questClickCost);
+
+
 
         questProgress("#questBarClick", questClickPercentage);
         questProgress("#questBarProduction", questProductionPercentage);
@@ -208,11 +217,11 @@
     }
 
     function totalAmmountInfo() {
-        $("#totaltoasts").html(toastIMGsmall + " Total toasts maked: " + totalAmmount);
+        $("#totaltoasts").html(toastIMGsmall + " Total toasts maked: " + gameState.TotalAmmount);
     }
 
     function currentAmmountInfo() {
-        $("#currentAmmount").html('<span class="badge" style="background-color:green">' + currentAmmount + ' ' + toastIMGsmall + '</span>');
+        $("#currentAmmount").html('<span class="badge" style="background-color:green">' + gameState.CurrentAmmount + ' ' + toastIMGsmall + '</span>');
     }
 
 
@@ -230,8 +239,8 @@
     }
 
     function mainToastLogic() {
-        currentAmmount += clickValue;
-        totalAmmount += clickValue;
+        gameState.CurrentAmmount += clickValue;
+        gameState.TotalAmmount += clickValue;
         clickCount++;
 
         totalAmmountInfo();
@@ -291,7 +300,7 @@
     function questProductionShowMessage() {
         if (questProductionCount >= questProductionCost) {
             toastsPS *= 2;
-            ViewLogic.messageLeft("green", "Congratulations! You have made " + totalAmmount + " " + toastIMGsmall, "Your total production of " + toastIMGsmall + " is doubled");
+            ViewLogic.messageLeft("green", "Congratulations! You have made " + gameState.TotalAmmount + " " + toastIMGsmall, "Your total production of " + toastIMGsmall + " is doubled");
             questProductionCount = 0;
 
             if (questProductionCost <= 1000) {
@@ -336,7 +345,7 @@
 
         console.log(upgradeSelected);
 
-        if (currentAmmount >= upgradeSelected.Cost) {
+        if (gameState.CurrentAmmount >= upgradeSelected.Cost) {
             upgradeSelected.Level++;
             $("#upglevel" + upgradeSelected.Id).html("Level: " + upgradeSelected.Level)
             levelUpAnimation();
@@ -347,7 +356,7 @@
             else if (upgradeSelected.UpgradeType == 1) {
                 clickValue += upgradeSelected.Value * achievMultiplier;
             }
-            currentAmmount = currentAmmount - upgradeSelected.Cost;
+            gameState.CurrentAmmount = gameState.CurrentAmmount - upgradeSelected.Cost;
             
             ViewLogic.messageTop("#5f87c6", "- " + upgradeSelected.Cost + " " + toastIMGsmall);
 
@@ -385,9 +394,9 @@
     }
 
     function toolTip(achievementModel) {
-        if (achievementModel != null && totalAmmount <= achievementModel.Cost) {
+        if (achievementModel != null && gameState.TotalAmmount <= achievementModel.Cost) {
             var selector = $("[data-id=" + achievementModel.Id + "]");
-            selector.attr('title', totalAmmount + ' / ' + achievementModel.Cost + "\n" + achievementModel.Description);
+            selector.attr('title', gameState.TotalAmmount + ' / ' + achievementModel.Cost + "\n" + achievementModel.Description);
         }
         else {
             if (achievementModel != null && achievementModel.Done == false) {
@@ -420,7 +429,7 @@
     //display panel
     var showAchievements = false;
     function achievementDisplay(valueNeededToDisplay) {
-        if (totalAmmount > valueNeededToDisplay) {
+        if (gameState.TotalAmmount > valueNeededToDisplay) {
             $("#achievementsContainer").show();
             console.log("wykonane");
             
