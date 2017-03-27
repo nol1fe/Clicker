@@ -7,27 +7,35 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Data;
+using System.Data.Entity;
 
 namespace Clicker.Controllers
 {
     public class UpgradesController : ApiController
     {
         private ClickerDb db = new ClickerDb();
-        public IEnumerable<Upgrade> GetAllUpgrades()
+
+        [Route("api/Upgrades")]
+
+        public HttpResponseMessage GetAllUpgrades()
         {
-            var upgradeList = db.Upgrades.ToList();
-            return upgradeList;
+            return Request.CreateResponse(HttpStatusCode.OK, db.Upgrades.ToList());
         }
 
-        public IHttpActionResult GetUpgrade(int id)
+        [Route("api/Upgrades/GetUpgrade")]
+        public HttpResponseMessage GetUpgrade([FromUri]int id)
         {
-            var upgradeList = db.Upgrades.ToList();
-            var upgrade = upgradeList.FirstOrDefault((u) => u.Id == id);
-            if (upgrade == null)
+            var upgrade = db.Upgrades.Where(u => u.Id == id).FirstOrDefault();
+            if (upgrade != null)
             {
-                return NotFound();
+                return Request.CreateResponse(HttpStatusCode.OK, upgrade);
             }
-            return Ok(upgrade);
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, " Upgrade Not Found");
+            }
+
         }
 
     }

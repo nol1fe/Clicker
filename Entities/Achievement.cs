@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Entities
 {
@@ -12,7 +13,7 @@ namespace Entities
         public string ImgUrl { get; set; }
         public string Description { get; set; }
 
-        public bool Done { get; set; }
+        public virtual ICollection<GameStateAchievement> GameStateAchievements { get; set; }
 
     }
 }

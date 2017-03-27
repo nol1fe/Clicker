@@ -61,6 +61,7 @@
     <Compile Include="Achievement.cs" />
     <Compile Include="GameSettings.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="GameStateUpgrade.cs" />
     <Compile Include="GameStateAchievement.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Player.cs" />

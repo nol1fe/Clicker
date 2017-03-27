@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class GameStateAchievement
+    public class GameStateUpgrade
     {
         [Column(Order = 1)]
         [Key]
         public int Id { get; set; }
 
         [Column(Order = 2)]
+        [ForeignKey("Upgrade")]
+        public int UpgradeId { get; set; }
 
-        [ForeignKey("Achievement")]
-        public int AchievementId { get; set; }
-        public virtual Achievement Achievement { get; set; }
+        public virtual Upgrade Upgrade { get; set; }
 
         [Column(Order = 3)]
         [ForeignKey("GameState")]
@@ -26,17 +26,14 @@ namespace Entities
 
         public virtual GameState GameState { get; set; }
 
+        public int Level { get; set; }
 
-        public GameStateAchievement()
-        {
+        public GameStateUpgrade() { }
 
-        }
-
-        public GameStateAchievement(int achievementId, int gameStateId)
-        {
-            AchievementId = achievementId;
+        public GameStateUpgrade(int upgradeId, int gameStateId) {
+            UpgradeId = upgradeId;
             GameStateId = gameStateId;
-
+            Level = 0;
         }
 
     }

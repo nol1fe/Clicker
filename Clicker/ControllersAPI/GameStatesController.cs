@@ -18,10 +18,8 @@ namespace Clicker.ControllersAPI
     {
         private ClickerDb db = new ClickerDb();
 
-
-        // GET: api/GameStates/GetGameStateByUserId/5
-        [ResponseType(typeof(GameState))]
-        public IHttpActionResult GetGameStateByUserId([FromUri] int userId)
+        [Route("api/gamestates/GetGameStateByUserId")]
+        public HttpResponseMessage GetGameStateByUserId([FromUri] int userId)
         {
             var authUserIdentifier = User.Identity.GetUserId();
             var parsedId = 0;
@@ -29,33 +27,63 @@ namespace Clicker.ControllersAPI
 
             if (parsedId == userId)
             {
-                var gameState = db.GameStates.AsQueryable().FirstOrDefault(x => x.UserId == userId);
+                var gameState = db.GameStates.Include(x => x.GameStateUpgrades).Include(x=>x.GameStateAchievements).FirstOrDefault(x => x.UserId == userId);
+                //var gameState = db.GameStates.AsQueryable().FirstOrDefault(x => x.UserId == userId);
+
                 if (gameState == null)
                 {
                     gameState = new GameState(userId);
 
                     db.GameStates.Add(gameState);
                     db.SaveChanges();
-                }
 
-                return Ok(new GameState() {
-                        Id = gameState.Id,
-                        UserId = gameState.UserId,
-                        TotalAmmount = gameState.TotalAmmount,
-                        CurrentAmmount = gameState.CurrentAmmount,
-                        StarDate = gameState.StarDate,
-                        LastChangedDate = gameState.LastChangedDate
-                        
-                });
+                    var upgrades = db.Upgrades.ToList();
+                    foreach (var item in upgrades)
+                    {
+                        var playerUpgrade = new GameStateUpgrade(item.Id, gameState.Id);
+                        db.GameStateUpgrades.Add(playerUpgrade);
+                    }
+
+                    db.SaveChanges();
+
+                    gameState.GameStateAchievements = new List<GameStateAchievement>();
+
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, gameState);
+
             }
             else
             {
-                return NotFound();
+                return Request.CreateResponse(HttpStatusCode.NotFound, false);
             }
 
         }
 
-     
+        [Route("api/gamestates/ResetGameStateByUserId")]
+        [HttpDelete]
+        public HttpResponseMessage DeleteGameStateByUserId([FromUri] int userId)
+        {
+            var authUserIdentifier = User.Identity.GetUserId();
+            var parsedId = 0;
+            Int32.TryParse(authUserIdentifier, out parsedId);
+
+            if (parsedId == userId)
+            {
+                var gameState = db.GameStates.FirstOrDefault(x => x.UserId == userId);
+                if (gameState != null)
+                {
+                    db.GameStates.Remove(gameState);
+                }
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, false);
+            }
+        }
+
+        //save game
         // POST: api/GameStates
         [ResponseType(typeof(GameState))]
         public IHttpActionResult PostGameState([FromBody]GameState gameState, [FromUri]int userId)
@@ -65,13 +93,43 @@ namespace Clicker.ControllersAPI
             gameStateFromDb.CurrentAmmount = gameState.CurrentAmmount;
             gameStateFromDb.TotalAmmount = gameState.TotalAmmount;
             gameStateFromDb.LastChangedDate = DateTime.Now;
+            gameStateFromDb.ClickCount = gameState.ClickCount;
+            gameStateFromDb.ClickValue = gameState.ClickValue;
+            gameStateFromDb.ValuePerSecond = gameState.ValuePerSecond;
+
+            db.SaveChanges();
+
+            var gameStateUpgradesFromDb = db.GameStateUpgrades.Where(x => x.GameStateId == gameState.Id).ToList();
+            
+            foreach (var upgrade in gameStateUpgradesFromDb)
+            {
+                var gmsUpgrade = gameState.GameStateUpgrades.FirstOrDefault(x => x.UpgradeId == upgrade.UpgradeId);
+                if (gmsUpgrade != null)
+                {
+                    upgrade.Level = gmsUpgrade.Level;
+                }
+            }
+
+            //var gameStateAchievementsFromDb = db.GameStateAchievements.Where(x => x.GameStateId == gameState.Id).ToList();
+
+            foreach (var achievement in gameState.GameStateAchievements)
+            {
+                var gameStateADb = db.GameStateAchievements.FirstOrDefault(x => x.AchievementId == achievement.AchievementId);
+                if (gameStateADb == null)
+                {
+                    db.GameStateAchievements.Add(new GameStateAchievement { AchievementId = achievement.AchievementId, GameStateId = gameState.Id });
+
+                }
+
+
+            }
 
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = gameState.Id }, gameState);
         }
 
-  
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

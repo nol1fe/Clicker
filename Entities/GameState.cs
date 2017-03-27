@@ -15,33 +15,46 @@ namespace Entities
         public int CurrentAmmount { get; set; }
         public int TotalAmmount { get; set; }
 
-        public DateTime StarDate { get; set; }
+        public int ClickCount { get; set; }
+        public int ClickValue { get; set; }
+
+        public int ValuePerSecond { get; set; }
+
+        public DateTime StartDate { get; set; }
         public DateTime LastChangedDate { get; set; }
+
+        [ForeignKey("User")]
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
+
+        public virtual ICollection<GameStateUpgrade> GameStateUpgrades { get; set; }
+        public virtual ICollection<GameStateAchievement> GameStateAchievements { get; set; }
+
+
+
 
         [NotMapped]
         public string GameTime
         {
             get
             {
-                var gameTime = LastChangedDate - StarDate;
+                var gameTime = LastChangedDate - StartDate;
 
                 return string.Format("{0}:{1}:{2}:{3}", gameTime.Hours, gameTime.Minutes, gameTime.Seconds, gameTime.Milliseconds);
             }
         }
-        
 
 
-        [ForeignKey("User")]
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
-
-        public GameState(){}
+        public GameState() { }
 
         public GameState(int userId)
         {
             UserId = userId;
-            StarDate = DateTime.Now;
+            StartDate = DateTime.Now;
             LastChangedDate = DateTime.Now;
+            ClickValue = 1;
         }
+
+
     }
 }
