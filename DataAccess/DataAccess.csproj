@@ -126,6 +126,18 @@
     <Compile Include="Migrations\201703271316526_GameState_StartDate_NameFix.Designer.cs">
       <DependentUpon>201703271316526_GameState_StartDate_NameFix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703280830433_GameStateQuests.cs" />
+    <Compile Include="Migrations\201703280830433_GameStateQuests.Designer.cs">
+      <DependentUpon>201703280830433_GameStateQuests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703280841304_GameStateQuests_Cost_Count_Delete.cs" />
+    <Compile Include="Migrations\201703280841304_GameStateQuests_Cost_Count_Delete.Designer.cs">
+      <DependentUpon>201703280841304_GameStateQuests_Cost_Count_Delete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703281153536_GameState_Time.cs" />
+    <Compile Include="Migrations\201703281153536_GameState_Time.Designer.cs">
+      <DependentUpon>201703281153536_GameState_Time.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -184,6 +196,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703271316526_GameState_StartDate_NameFix.resx">
       <DependentUpon>201703271316526_GameState_StartDate_NameFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703280830433_GameStateQuests.resx">
+      <DependentUpon>201703280830433_GameStateQuests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703280841304_GameStateQuests_Cost_Count_Delete.resx">
+      <DependentUpon>201703280841304_GameStateQuests_Cost_Count_Delete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703281153536_GameState_Time.resx">
+      <DependentUpon>201703281153536_GameState_Time.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

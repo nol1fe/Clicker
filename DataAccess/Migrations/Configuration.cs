@@ -27,10 +27,12 @@ namespace DataAccess.Migrations
 
                 new Achievement { Id = 1, Name = "Toster", Cost = 2500, Value = 1, ImgUrl = "/Content/Images/toster1.png", Description = "Bonus! +1 To all upgrades" },
                 new Achievement { Id = 2, Name = "Magic Toster", Cost = 30000, Value = 2, ImgUrl = "/Content/Images/toster2.png", Description = "Super bonus! +2 To all upgrades"},
-                new Achievement { Id = 3, Name = "Epic Toster", Cost = 200000, Value = 5, ImgUrl = "/Content/Images/toster3.png", Description = "Epic bonus! +5 To all upgrades"}
+                new Achievement { Id = 3, Name = "Epic Toster", Cost = 200000, Value = 5, ImgUrl = "/Content/Images/toster3.png", Description = "Epic bonus! +5 To all upgrades"} );
 
+            context.Quests.AddOrUpdate(q => q.Name,
+                new Quest { Id = 1, Name = "Click" },
+                new Quest { Id = 2, Name = "Production" });
 
-                );
 
             //  This method will be called after migrating to the latest version.
 

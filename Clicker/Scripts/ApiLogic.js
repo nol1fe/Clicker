@@ -1,5 +1,5 @@
 ﻿var ApiLogic = (function ($) {
- 
+
     function getUserGameState(onSuccess, userId) {
         console.log("start getUserGameState");
         $.ajax({
@@ -28,7 +28,7 @@
             success: function (data) {
                 console.log("end saveGameState");
             }
-            
+
         });
     }
 
@@ -40,7 +40,7 @@
             data: {
                 userId: userId
             },
-            
+
             success: function () {
                 console.log("end resetGameState");
                 location.reload();
@@ -70,7 +70,7 @@
 
     }
 
-    function getAchievements (onSuccess) {
+    function getAchievements(onSuccess) {
         console.log("start getAchievements");
 
         $.ajax({
@@ -89,12 +89,28 @@
 
         });
 
+
+    }
+
+    function getQuests(onSuccess) {
+        console.log("start getQuests");
+
+        $.ajax({
+            url: 'api/quests',
+            success: function (data) {
+                console.log("end getQuests");
+
+                onSuccess(data);
+            }
+        });
+
     }
 
     return {
         getUserGameState: getUserGameState,
         getAchievements: getAchievements,
         getUpgrades: getUpgrades,
+        getQuests: getQuests,
         saveGameState: saveGameState,
         resetGameState: resetGameState
     }

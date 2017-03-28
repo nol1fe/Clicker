@@ -5,7 +5,6 @@
     var achievMultiplier = 1;
     var achievMultiplierX = 2;
 
-    var questProductionNeededAmmount = 50;
     var achievementUnlockNeededAmmount = 5000;
 
     var mainToast = $("#toastclick");
@@ -13,19 +12,15 @@
 
     var upgradeList = [];
     var achievementList = [];
+    var questList = [];
 
     var msInterval = 1000;
 
-    var timer = { seconds: 0, minutes: 0, hours: 0 };
+    var questClick;
+    var questClickPercentage;
 
-
-    var questClickCount = 0;
-    var questClickPercentage = 0;
-    var questClickCost = 10;
-
-    var questProductionCount = 0;
-    var questProductionPercentage = 0;
-    var questProductionCost = 50;
+    var questProduction;
+    var questProductionPercentage;
 
     var toastIMGsmall = '<img style="width:20px;" src="/Content/Images/toast.png"/>';
     var toastIMGmedium = '<img style="width:60px;" src="/Content/Images/toast.png"/>';
@@ -36,7 +31,9 @@
     var achievementDisplayAmmount = 5;
 
     var dataLoadCounter = 0;
+    var achievementSelected;
 
+    var showDescription;
 
     $(function () {
         gameInitialization();
@@ -45,35 +42,55 @@
 
         });
 
-        $("#saveGame").on("click", function () {
-            saveUpgradeLevelsToGameState();
-            ApiLogic.saveGameState(gameState, userId);
-        });
-        $("#restartGame").on("click", function () {
-            var successDelete = false;
-            if (successDelete == false) {
-                ApiLogic.resetGameState(userId);
-                successDelete = true;
-            }
+        $("#saveGame").on("click", SaveGame);
+        $("#restartGame").on("click", resetGame);//function () {
+        //    var successDelete = false;
+        //    if (successDelete == false) {
+        //        ApiLogic.resetGameState(userId);
+        //        successDelete = true;
+        //    }
 
-        });
+        //});
 
-        $("#boostClick").on("click", function () {
-            gameState.CurrentAmmount += 50000;
-            gameState.TotalAmmount += 50000;
-        });
+        //$("#boostClick").on("click", function () {
+        //    gameState.CurrentAmmount += 50000;
+        //    gameState.TotalAmmount += 50000;
+        //});
 
 
         mainToast.on("click", mainToastLogic);
         mainToast.on("click", questClickHandling);
 
         $('#upgradesPanel').on("click", "div.upgrade", upgradeClick);
-        $('#achievementsPanel').on("mouseover", "div", achievementGet);
+        $('#achievementsPanel').on("mouseenter", "div", achievementGet);
+        $('#achievementsPanel').on("mouseleave", "div", function () {
+            $('#description').empty();
+            clearInterval(showDescription);
+        });
+        
 
         $(document).on("click", function () {
-            //console.log(gameState.GameStateAchievements);
+
+            console.log(questProduction);
+
         });
     });
+
+    function resetGame() {
+        var successDelete = false;
+        if (successDelete == false) {
+            ApiLogic.resetGameState(userId);
+            successDelete = true;
+        }
+    }
+
+    function SaveGame() {
+        saveUpgradeLevelsToGameState();
+        ApiLogic.saveGameState(gameState, userId);
+        console.log("GAME SAVED");
+    }
+
+    setInterval(SaveGame, 60000);
 
     var divCounter = 0;
     function plusToastAnimation(e) {
@@ -122,25 +139,41 @@
 
         updateUpgradeLevels();
         upgradeDisplay();
-
-        
-
     }
 
     function UserGameStateOnSuccess(data) {
         gameState = data;
         ApiLogic.getUpgrades(UpgradesOnSuccess);
+        ApiLogic.getQuests(QuestOnSuccess);
 
         dataLoadCounter++;
 
     }
 
     function UpgradesOnSuccess(data) {
-        upgradeList = data
-        ApiLogic.getAchievements(AchievementsOnSuccess)
+        upgradeList = data;
+        ApiLogic.getAchievements(AchievementsOnSuccess);
 
         dataLoadCounter++;
 
+    }
+
+    function QuestOnSuccess(data) {
+        questList = data;
+
+        dataLoadCounter++;
+
+    }
+
+    function updateQuestInfo() {
+        _.each(questList, function (item) {
+
+            var gameStateQuest = _.find(gameState.GameStateQuests, function (quest) { return quest.QuestId == item.Id });
+            item.Cost = gameStateQuest.Cost;
+            item.Count = gameStateQuest.Count;
+
+        });
+        
     }
 
     function updateAchievements() {
@@ -160,7 +193,6 @@
 
     }
 
-
     function saveUpgradeLevelsToGameState() {
         _.each(upgradeList, function (item) {
 
@@ -171,32 +203,42 @@
 
     }
 
-
     function AchievementsOnSuccess(data) {
         achievementList = data;
-
-            achievementInitialization();
-
-
+        achievementInitialization();
         dataLoadCounter++;
+    }
 
+    function questInitialization() {
+        questClick = _.find(gameState.GameStateQuests, function (item) { return item.QuestId == 1 });
+        questProduction = _.find(gameState.GameStateQuests, function (item) { return item.QuestId == 2 });
+        questClickPercentage = (questClick.Count / questClick.Cost) * 100;
+        questProductionPercentage = (questProduction.Count / questProduction.Cost) * 100;
     }
 
     setInterval(function () {
+       
 
-        if (dataLoadCounter >= 3) {
-            timer.seconds++;
+        if (dataLoadCounter >= 4) {
+            gameState.seconds++;
             myTimer();
             gameState.CurrentAmmount += gameState.ValuePerSecond;
             gameState.TotalAmmount += gameState.ValuePerSecond;
-            questProductionCount += gameState.ValuePerSecond;
             gameUpdate();
+            updatingCurrentAmmount = gameState.CurrentAmmount;
+            if (questProduction != undefined)
+            {
+                questProduction.Count += gameState.ValuePerSecond;
+                questProgress("#questBarProduction", questProductionPercentage);
+                questProductionShowMessage(questProduction.Cost);
+                
+            }
+            if (questClick != undefined)
+            {
+                questProgress("#questBarClick", questClickPercentage);
+                questClickShowMessage(questClick.Cost);
+            }
 
-            questProductionShowMessage(questProductionCost);
-            questClickShowMessage(questClickCost);
-
-            questProgress("#questBarClick", questClickPercentage);
-            questProgress("#questBarProduction", questProductionPercentage);
         }
 
 
@@ -215,6 +257,8 @@
 
         if (showUpgrades == false) {
             updateUpgradeLevels();
+            updateQuestInfo(); // narazie tutaj QUESTY
+            questInitialization();
             upgradeDisplay();
             showUpgrades = true;
         }
@@ -222,6 +266,7 @@
         if (showAchievements == false) {
             if (gameState.TotalAmmount > achievementDisplayAmmount) {
                 achievementDisplay();
+
                 showAchievements = true;
             }
         }
@@ -259,7 +304,7 @@
     function questProgress(selector, valueInPercentage) {
         $(selector).animate()
             .addClass("active")
-            .attr("aria-valuenow", valueInPercentage)
+            .attr("aria-valuenow", valueInPercentage.toPrecision(3))
             .width(valueInPercentage + "%")
 
         if (valueInPercentage < 100) {
@@ -293,16 +338,16 @@
 
 
     function myTimer() {
-        if (timer.seconds == 60) {
-            timer.minutes++;
-            timer.seconds = 0;
+        if (gameState.seconds == 60) {
+            gameState.minutes++;
+            gameState.seconds = 0;
         }
-        if (timer.minutes == 60) {
-            timer.hours++;
-            timer.minutes = 00;
+        if (gameState.minutes == 60) {
+            gameState.hours++;
+            gameState.minutes = 00;
         }
 
-        $("#timer").html("Time: " + timer.hours.toString() + 'h ' + timer.minutes.toString() + 'min ' + timer.seconds.toString() + 's');
+        $("#timer").html("Time: " + gameState.hours.toString() + 'h ' + gameState.minutes.toString() + 'min ' + gameState.seconds.toString() + 's');
     }
 
     function mainToastLogic() {
@@ -317,7 +362,7 @@
     }
 
     function questClickHandling() {
-        questClickCount++;
+        questClick.Count++;
         resetQuestClick();
 
         questClickShowMessage();
@@ -328,55 +373,64 @@
 
     function resetQuestClick() {
         if ($("#questBarClick").attr("aria-valuenow") < 100) {
-            questClickPercentage = (questClickCount / questClickCost) * 100;
+            questClickPercentage = (questClick.Count / questClick.Cost) * 100;
 
         }
         else if ($("#questBarClick").attr("aria-valuenow") >= 100) {
-            questClickCount = 0;
+            questClick.Count = 0;
             questClickPercentage = 0;
         }
 
     }
 
     function resetQuestProduction() {
-        if ($("#questBarProduction").attr("aria-valuenow") <= 100) {
-            questProductionPercentage = (questProductionCount / questProductionCost) * 100;
-        }
-        else if (questProductionPercentage > 100) {
-            questProductionPercentage = 0;
-            questProductionCount = 0
+        if (questProduction != undefined) {
+            if ($("#questBarProduction").attr("aria-valuenow") < 100) {
+                questProductionPercentage = (questProduction.Count / questProduction.Cost) * 100;
+
+            }
+            else 
+            {
+                questProductionPercentage = 0;
+                questProduction.Count = 0
+            }
         }
     }
 
     function questClickShowMessage() {
-        if (questClickCount >= questClickCost) {
+        if (questClick.Count >= questClick.Cost) {
             gameState.ClickValue *= 2;
 
-            questClickCount = 0;
+            questClick.Count = 0;
 
-            if (questClickCost <= 100) {
-                questClickCost += 30;
+            if (questClick.Cost <= 100) {
+                questClick.Cost += 30;
             }
             else {
-                questClickCost += 200;
+                questClick.Cost += 200;
             }
             ViewLogic.messageLeft("#f79422", "Congratulations! You have clicked " + toastIMGsmall + " " + gameState.ClickCount + " times", "Your " + toastIMGsmall + " per click is doubled");
         }
     }
 
     function questProductionShowMessage() {
-        if (questProductionCount >= questProductionCost) {
-            gameState.ValuePerSecond *= 2;
-            ViewLogic.messageLeft("green", "Congratulations! You have made " + gameState.TotalAmmount + " " + toastIMGsmall, "Your total production of " + toastIMGsmall + " is doubled");
-            questProductionCount = 0;
+        if (questProduction != undefined)
+        {
+            if (questProduction.Count >= questProduction.Cost) {
+                gameState.ValuePerSecond *= 2;
+            
+                ViewLogic.messageLeft("green", "Congratulations! You have made " + gameState.TotalAmmount + " " + toastIMGsmall, "Your total production of " + toastIMGsmall + " is doubled");
+                questProduction.Count = 0;
 
-            if (questProductionCost <= 1000) {
-                questProductionCost += 200;
-            }
-            else {
-                questProductionCost *= 5;
+                if (questProduction.Cost <= 1000) {
+                    questProduction.Cost += 300;
+                }
+                else {
+                    questProduction.Cost *= 5;
+                }
             }
         }
+
     }
 
     var levelUpStart = 0;
@@ -450,49 +504,24 @@
 
 
     var achievementId;
-    var achievementSelected;
 
     function achievementGet() {
         achievementId = $(this).data("id");
         achievementSelected = _.find(achievementList, function (item) {
             return item.Id === achievementId
         })
+        if (achievementSelected.Done == false) {
+            showDescription = setInterval(function () {
+                $('#description').html(""+gameState.TotalAmmount + " / " + achievementSelected.Cost + "<br /> Bonus + " + achievementSelected.Value + " to all production");
+            }), msInterval;
+        }
+        else {
+            $('#description').html("Bonus + " + achievementSelected.Value + " to all production");
+
+        }
+    
+
     }
-
-    //function toolTip(achievementModel) {
-    //    if (achievementModel != null && gameState.TotalAmmount <= achievementModel.Cost) {
-    //        var selector = $("[data-id=" + achievementModel.Id + "]");
-    //        selector.attr('title', gameState.TotalAmmount + ' / ' + achievementModel.Cost + "\n" + achievementModel.Description);
-    //    }
-    //    else {
-    //        if (achievementModel != null && achievementModel.Done == false) {
-    //            for (var i = 0; i < upgradeList.length ; i++) {
-    //                upgradeList[i].Value += achievementModel.Value;
-
-    //                if (upgradeList[i].UpgradeType == 0) {
-    //                    toastsPsInfo();
-    //                    $("#upgprofit" + upgradeList[i].Id).html('Produces: ' + (upgradeList[i].Value * achievMultiplier) + ' ' + toastIMGsmall + ' per second')
-    //                }
-    //                else if (upgradeList[i].UpgradeType == 1) {
-    //                    currentAmmountInfo();
-    //                    $("#upgprofit" + upgradeList[i].Id).html('Produces: ' + (upgradeList[i].Value * achievMultiplier) + ' ' + toastIMGsmall + ' per click');
-    //                }
-    //                $("#upgcost" + upgradeList[i].Id).html('Cost: ' + upgradeList[i].Cost + ' ' + toastIMGsmall);
-
-    //            }
-    //            var selector = $("[data-id=" + achievementModel.Id + "]");
-    //            selector.css('opacity', '1.0');
-    //            selector.attr('title', achievementModel.Description);
-    //            achievementModel.Done = true;
-    //            if (achievementModel.Done == true) {
-    //                gameState.GameStateAchievements.push({ AchievementId: achievementModel.Id, GameStateId: gameState.Id });
-    //            }
-
-    //        }
-
-
-    //    }
-    //}
 
     function checkIfDoneAchievement() {
         _.each(achievementList, function (item) {
@@ -518,7 +547,7 @@
                     item.Done = true;
                     if (item.Done == true) {
                         gameState.GameStateAchievements.push({ AchievementId: item.Id, GameStateId: gameState.Id });
-                        $("[data-id="+item.Id+"]").css('opacity', 1.0);
+                        $("[data-id=" + item.Id + "]").css('opacity', 1.0);
 
                     }
 
@@ -570,20 +599,20 @@
 
         _.each(achievementList, function (achievement) {
             if (achievement.Done == false) {
-                $('#achievementsPanel').append(
-                    '<div name="achievement" class="col-sm-4" style="text-align: center; opacity: 0.2;" data-id="' + achievement.Id + '" data-toggle="tooltip">'
+                $('#description').before(
+                    '<div name="achievement" class="col-xs-4" style="text-align: center; opacity: 0.2; padding-top:12px;" data-id="' + achievement.Id + '" data-toggle="tooltip">'
                     + '<img height="42" width="42" src=' + achievement.ImgUrl + '></img>'
                     + '</div>');
             }
             else {
-                $('#achievementsPanel').append(
-                    '<div name="achievement" class="col-sm-4" style="text-align: center; opacity: 1.0;" data-id="' + achievement.Id + '" data-toggle="tooltip">'
+                $('#description').before(
+                    '<div name="achievement" class="col-xs-4" style="text-align: center; opacity: 1.0; padding-top:12px;" data-id="' + achievement.Id + '" data-toggle="tooltip">'
                     + '<img height="42" width="42" src=' + achievement.ImgUrl + '></img>'
                     + '</div>');
             }
 
         });
-
+        
     }
 
 

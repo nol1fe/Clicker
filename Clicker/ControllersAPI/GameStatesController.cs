@@ -27,7 +27,7 @@ namespace Clicker.ControllersAPI
 
             if (parsedId == userId)
             {
-                var gameState = db.GameStates.Include(x => x.GameStateUpgrades).Include(x=>x.GameStateAchievements).FirstOrDefault(x => x.UserId == userId);
+                var gameState = db.GameStates.Include(x => x.GameStateUpgrades).Include(x=>x.GameStateAchievements).Include(q=>q.GameStateQuests).FirstOrDefault(x => x.UserId == userId);
                 //var gameState = db.GameStates.AsQueryable().FirstOrDefault(x => x.UserId == userId);
 
                 if (gameState == null)
@@ -43,10 +43,18 @@ namespace Clicker.ControllersAPI
                         var playerUpgrade = new GameStateUpgrade(item.Id, gameState.Id);
                         db.GameStateUpgrades.Add(playerUpgrade);
                     }
+                    var quests = db.Quests.ToList();
+                    foreach (var quest in quests)
+                    {
+                        var playerQuest = new GameStateQuest(quest.Id, gameState.Id);
+                        db.GameStateQuests.Add(playerQuest);
+                    }
+
 
                     db.SaveChanges();
 
                     gameState.GameStateAchievements = new List<GameStateAchievement>();
+
 
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, gameState);
@@ -96,6 +104,9 @@ namespace Clicker.ControllersAPI
             gameStateFromDb.ClickCount = gameState.ClickCount;
             gameStateFromDb.ClickValue = gameState.ClickValue;
             gameStateFromDb.ValuePerSecond = gameState.ValuePerSecond;
+            gameStateFromDb.seconds = gameState.seconds;
+            gameStateFromDb.minutes = gameState.minutes;
+            gameStateFromDb.hours = gameState.hours;
 
             db.SaveChanges();
 
@@ -107,22 +118,34 @@ namespace Clicker.ControllersAPI
                 if (gmsUpgrade != null)
                 {
                     upgrade.Level = gmsUpgrade.Level;
+                    
+                }
+            }
+
+            var gameStateQuestsFromDb = db.GameStateQuests.Where(x => x.GameStateId == gameState.Id).ToList();
+            foreach (var quest in gameStateQuestsFromDb)
+            {
+                var gmsQuest = gameState.GameStateQuests.FirstOrDefault(x => x.QuestId == quest.QuestId);
+                if (gmsQuest != null)
+                {
+                    quest.Cost = gmsQuest.Cost;
+                    quest.Count = gmsQuest.Count;
                 }
             }
 
             //var gameStateAchievementsFromDb = db.GameStateAchievements.Where(x => x.GameStateId == gameState.Id).ToList();
-
-            foreach (var achievement in gameState.GameStateAchievements)
+            if (gameState.GameStateAchievements != null)
             {
-                var gameStateADb = db.GameStateAchievements.FirstOrDefault(x => x.AchievementId == achievement.AchievementId);
-                if (gameStateADb == null)
+                foreach (var achievement in gameState.GameStateAchievements)
                 {
-                    db.GameStateAchievements.Add(new GameStateAchievement { AchievementId = achievement.AchievementId, GameStateId = gameState.Id });
-
+                    var gameStateADb = db.GameStateAchievements.FirstOrDefault(x => x.AchievementId == achievement.AchievementId);
+                    if (gameStateADb == null)
+                    {
+                        db.GameStateAchievements.Add(new GameStateAchievement { AchievementId = achievement.AchievementId, GameStateId = gameState.Id });
+                    }
                 }
-
-
             }
+
 
             db.SaveChanges();
 

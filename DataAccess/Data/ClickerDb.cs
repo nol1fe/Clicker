@@ -13,6 +13,7 @@ namespace DataAccess
         }
         public DbSet<Upgrade> Upgrades { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<Quest> Quests { get; set; }
 
         public DbSet<User> Users { get; set; }
 
@@ -21,6 +22,8 @@ namespace DataAccess
         public DbSet<GameStateUpgrade> GameStateUpgrades { get; set; }
 
         public DbSet<GameStateAchievement> GameStateAchievements { get; set; }
+
+        public DbSet<GameStateQuest> GameStateQuests { get; set; }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

@@ -11,9 +11,11 @@
 
 <input type="hidden" id="userId" value="@ViewBag.UserId"/>
 
+
+
 <div class="container">
     <div class="row">
-        <button style="left:10%;position:absolute" id="boostClick" type="button" class="btn btn-default">Boost</button>
+      @*  <button style="left:10%;position:absolute" id="boostClick" type="button" class="btn btn-default">Boost</button>*@
         <div class="container col-sm-4">
 
             <div class="panel-group col-sm-12 row" id="panelLeft" style="padding-top:4%">
@@ -42,7 +44,7 @@
                         </h4>
 
                     </div>
-                    <div id="quests" class="panel-collapse collapse">
+                    <div id="quests" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <h5>Click Quest</h5>
                             <div class="progress">
@@ -104,13 +106,14 @@
                     </div>
                     <div id="achievementsPanel" class="panel-collapse collapse in">
                         <span style="margin-left:45%"><img class="gif" style="height:50px" src="/Content/Images/ajax-loader.gif"></span>
+                        
+                        <div id="description" class="col-xs-12" style="text-align:center; height:50px ;padding-top:3px;"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <button style="left:10%;position:absolute" id="saveGame" type="button" class="btn btn-default">Save Game</button>
-    <button style="right:10%;position:absolute" id="restartGame" type="button" class="btn btn-default">Restart Game</button>
+  @*  <button style="left:10%;position:absolute" id="saveGame" type="button" class="btn btn-default">Save Game</button>*@
 
 </div>
 

@@ -9,6 +9,16 @@
         <li>
             @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
+        <li style="color: #9d9d9d;padding-top:15px">
+            /
+        </li>
+        <li>
+           @* <button style="padding:14px; right:0%" id="restartGame" type="button" class="btn-sm btn-default"></button>*@
+            <a id="restartGame" href="javascript:void(0)">Restart Game</a>
+        </li>
+        <li  style="color: #9d9d9d;padding-top:15px">
+            /
+        </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>
     }

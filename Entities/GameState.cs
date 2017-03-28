@@ -30,6 +30,11 @@ namespace Entities
         public virtual ICollection<GameStateUpgrade> GameStateUpgrades { get; set; }
         public virtual ICollection<GameStateAchievement> GameStateAchievements { get; set; }
 
+        public virtual ICollection<GameStateQuest> GameStateQuests { get; set; }
+
+        public int seconds { get; set; }
+        public int minutes { get; set; }
+        public int hours { get; set; }
 
 
 
