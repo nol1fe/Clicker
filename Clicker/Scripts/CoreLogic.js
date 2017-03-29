@@ -42,15 +42,8 @@
 
         });
 
-        $("#saveGame").on("click", SaveGame);
-        $("#restartGame").on("click", resetGame);//function () {
-        //    var successDelete = false;
-        //    if (successDelete == false) {
-        //        ApiLogic.resetGameState(userId);
-        //        successDelete = true;
-        //    }
-
-        //});
+        $("#saveGame").on("click", saveGame);
+        $("#restartGame").on("click", resetGame);
 
         //$("#boostClick").on("click", function () {
         //    gameState.CurrentAmmount += 50000;
@@ -70,9 +63,7 @@
         
 
         $(document).on("click", function () {
-
-            console.log(questProduction);
-
+            // test
         });
     });
 
@@ -84,13 +75,14 @@
         }
     }
 
-    function SaveGame() {
+    function saveGame() {
         saveUpgradeLevelsToGameState();
         ApiLogic.saveGameState(gameState, userId);
         console.log("GAME SAVED");
+        ViewLogic.messageLeft('#0dad18', "", "<b>Saving Game...</b>");
     }
 
-    setInterval(SaveGame, 60000);
+    setInterval(saveGame, 60000);
 
     var divCounter = 0;
     function plusToastAnimation(e) {
