@@ -1,20 +1,39 @@
 ﻿@model Clicker.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
 
-<h4>Use another service to log in.</h4>
+<h4 style="text-align:center">Highly addictive game!</h4>
 <hr />
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
     if (loginProviders.Count() == 0) {
-        <div>
-            <p>
-                There are no external authentication services configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support logging in via external services.
-            </p>
+        <div class="col-md-5">
+            <p>Toast Clicker is an incremental game. </p>
+            <ul>
+                <li>Click to get toasts</li>
+                <li>Raise your production</li>
+                <li>Hire workers</li>
+                <li>Buy upgrades</li>
+                <li>Get achievements</li>
+                <li>Conquer the world</li>
+                <li>Click more to get more toasts</li>
+            </ul>
         </div>
+        <div class="col-md-7 text-center">
+            <br />
+            <video id="demoVideo" width="360" height="154" autoplay="autoplay" loop>
+                <source src="~/Content/Images/toastdemo.mp4" type="video/mp4">
+                <source src="~/Content/Images/toastdemo.webm" type="video/webm">
+            </video>
+        </div>
+        @*<div class="col-md-7">
+            <img class="img-circle" height="200" src="~/Content/Images/screen.png" />
+        </div>*@
+  
     }
-    else {
-        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
+    else
+    {
+        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }))
+        {
             @Html.AntiForgeryToken()
             <div id="socialLoginList">
                 <p>

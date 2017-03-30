@@ -25,10 +25,10 @@ namespace Clicker.ControllersAPI
         }
 
         // GET: api/Achievements/5
-        [ResponseType(typeof(Achievement))]
+
         public IHttpActionResult GetAchievement(int id)
         {
-            Achievement achievement = db.Achievements.Find(id);
+            var achievement = db.Achievements.Find(id);
             if (achievement == null)
             {
                 return NotFound();

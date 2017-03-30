@@ -86,6 +86,58 @@
     <Compile Include="Migrations\201703161725407_User_Password_delete.Designer.cs">
       <DependentUpon>201703161725407_User_Password_delete.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703201233068_Achievement_Level_Delete.cs" />
+    <Compile Include="Migrations\201703201233068_Achievement_Level_Delete.Designer.cs">
+      <DependentUpon>201703201233068_Achievement_Level_Delete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703201434055_GameState.cs" />
+    <Compile Include="Migrations\201703201434055_GameState.Designer.cs">
+      <DependentUpon>201703201434055_GameState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703201540531_GameState_Date.cs" />
+    <Compile Include="Migrations\201703201540531_GameState_Date.Designer.cs">
+      <DependentUpon>201703201540531_GameState_Date.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703211626352_GameStateUpgrade.cs" />
+    <Compile Include="Migrations\201703211626352_GameStateUpgrade.Designer.cs">
+      <DependentUpon>201703211626352_GameStateUpgrade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703211643429_Entitie_Upgrade_Level_Delete.cs" />
+    <Compile Include="Migrations\201703211643429_Entitie_Upgrade_Level_Delete.Designer.cs">
+      <DependentUpon>201703211643429_Entitie_Upgrade_Level_Delete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703231201545_GameState_Add_ClickCount_ClickValue_ValuePerSecond.cs" />
+    <Compile Include="Migrations\201703231201545_GameState_Add_ClickCount_ClickValue_ValuePerSecond.Designer.cs">
+      <DependentUpon>201703231201545_GameState_Add_ClickCount_ClickValue_ValuePerSecond.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703231431065_Achievement_Delete_Done.cs" />
+    <Compile Include="Migrations\201703231431065_Achievement_Delete_Done.Designer.cs">
+      <DependentUpon>201703231431065_Achievement_Delete_Done.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703231450426_GameStateAchievement.cs" />
+    <Compile Include="Migrations\201703231450426_GameStateAchievement.Designer.cs">
+      <DependentUpon>201703231450426_GameStateAchievement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703271015307_GameStateAchievements_AchievementSuccess_Delete.cs" />
+    <Compile Include="Migrations\201703271015307_GameStateAchievements_AchievementSuccess_Delete.Designer.cs">
+      <DependentUpon>201703271015307_GameStateAchievements_AchievementSuccess_Delete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703271316526_GameState_StartDate_NameFix.cs" />
+    <Compile Include="Migrations\201703271316526_GameState_StartDate_NameFix.Designer.cs">
+      <DependentUpon>201703271316526_GameState_StartDate_NameFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703280830433_GameStateQuests.cs" />
+    <Compile Include="Migrations\201703280830433_GameStateQuests.Designer.cs">
+      <DependentUpon>201703280830433_GameStateQuests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703280841304_GameStateQuests_Cost_Count_Delete.cs" />
+    <Compile Include="Migrations\201703280841304_GameStateQuests_Cost_Count_Delete.Designer.cs">
+      <DependentUpon>201703280841304_GameStateQuests_Cost_Count_Delete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703281153536_GameState_Time.cs" />
+    <Compile Include="Migrations\201703281153536_GameState_Time.Designer.cs">
+      <DependentUpon>201703281153536_GameState_Time.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -114,6 +166,45 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703161725407_User_Password_delete.resx">
       <DependentUpon>201703161725407_User_Password_delete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703201233068_Achievement_Level_Delete.resx">
+      <DependentUpon>201703201233068_Achievement_Level_Delete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703201434055_GameState.resx">
+      <DependentUpon>201703201434055_GameState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703201540531_GameState_Date.resx">
+      <DependentUpon>201703201540531_GameState_Date.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703211626352_GameStateUpgrade.resx">
+      <DependentUpon>201703211626352_GameStateUpgrade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703211643429_Entitie_Upgrade_Level_Delete.resx">
+      <DependentUpon>201703211643429_Entitie_Upgrade_Level_Delete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703231201545_GameState_Add_ClickCount_ClickValue_ValuePerSecond.resx">
+      <DependentUpon>201703231201545_GameState_Add_ClickCount_ClickValue_ValuePerSecond.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703231431065_Achievement_Delete_Done.resx">
+      <DependentUpon>201703231431065_Achievement_Delete_Done.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703231450426_GameStateAchievement.resx">
+      <DependentUpon>201703231450426_GameStateAchievement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703271015307_GameStateAchievements_AchievementSuccess_Delete.resx">
+      <DependentUpon>201703271015307_GameStateAchievements_AchievementSuccess_Delete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703271316526_GameState_StartDate_NameFix.resx">
+      <DependentUpon>201703271316526_GameState_StartDate_NameFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703280830433_GameStateQuests.resx">
+      <DependentUpon>201703280830433_GameStateQuests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703280841304_GameStateQuests_Cost_Count_Delete.resx">
+      <DependentUpon>201703280841304_GameStateQuests_Cost_Count_Delete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703281153536_GameState_Time.resx">
+      <DependentUpon>201703281153536_GameState_Time.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

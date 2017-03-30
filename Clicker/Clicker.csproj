@@ -208,6 +208,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ControllersAPI\AchievementsController.cs" />
+    <Compile Include="ControllersAPI\GameStatesController.cs" />
+    <Compile Include="ControllersAPI\QuestsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
