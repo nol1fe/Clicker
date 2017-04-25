@@ -1,7 +1,5 @@
 # Clicker
 ## About the game:
-![alt tag](https://github.com/nol1fe/Clicker/blob/develop/Clicker/Content/Images/screen.png)
-
 Toast Clicker is an incremental game.
 - Click to get toasts
 - Raise your production
@@ -11,7 +9,9 @@ Toast Clicker is an incremental game.
 - Conquer the world
 - Click more to get even more toasts
 
-### Technology stack: 
+![alt tag](https://github.com/nol1fe/Clicker/blob/develop/Clicker/Content/Images/screen.png)
+
+## Technology stack: 
 - ASP .NET MVC 4
 - MS SQL
 - Code first
