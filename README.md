@@ -12,8 +12,10 @@ Toast Clicker is an incremental game.
 ![alt tag](https://github.com/nol1fe/Clicker/blob/develop/Clicker/Content/Images/screen.png)
 
 ## Technology stack: 
+- C#
 - ASP .NET MVC 4
 - MS SQL
 - Code first
 - Identity framework
+- Entity framework
 - HTML5, CSS3, Bootstrap, jQuery
