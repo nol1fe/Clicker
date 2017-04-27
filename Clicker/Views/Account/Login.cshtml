@@ -44,27 +44,15 @@
                 <p>
                     @Html.ActionLink("Register as a new user", "Register")
                 </p>
-                @* Enable this once you have account confirmation enabled for password reset functionality
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
             }
         </section>
     </div>
     <div class="col-md-7">
         <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            @Html.Partial("LandingPage", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </section>
     </div>
 </div>
-
-@*<div class="col-md-12 text-center">
-    <video id="demoVideo" width="480" height="320" autoplay="autoplay">
-        <source src="~/Content/Images/toastdemo.mp4" type="video/mp4">
-        <source src="~/Content/Images/toastdemo.webm" type="video/webm">
-    </video>
-</div>*@
-
 
 
 @section Scripts {
