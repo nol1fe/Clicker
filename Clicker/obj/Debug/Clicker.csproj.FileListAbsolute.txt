@@ -105,6 +105,8 @@ D:\GitHub\Clicker\Clicker\bin\Clicker.dll.config
 D:\GitHub\Clicker\Clicker\bin\Clicker.dll
 D:\GitHub\Clicker\Clicker\bin\Clicker.pdb
 D:\GitHub\Clicker\Clicker\bin\Antlr3.Runtime.dll
+D:\GitHub\Clicker\Clicker\bin\DataAccess.dll
+D:\GitHub\Clicker\Clicker\bin\Entities.dll
 D:\GitHub\Clicker\Clicker\bin\EntityFramework.dll
 D:\GitHub\Clicker\Clicker\bin\EntityFramework.SqlServer.dll
 D:\GitHub\Clicker\Clicker\bin\Microsoft.AI.Agent.Intercept.dll
@@ -130,6 +132,7 @@ D:\GitHub\Clicker\Clicker\bin\Microsoft.Owin.Security.Twitter.dll
 D:\GitHub\Clicker\Clicker\bin\Microsoft.Web.Infrastructure.dll
 D:\GitHub\Clicker\Clicker\bin\Newtonsoft.Json.dll
 D:\GitHub\Clicker\Clicker\bin\Owin.dll
+D:\GitHub\Clicker\Clicker\bin\Services.dll
 D:\GitHub\Clicker\Clicker\bin\System.Net.Http.Formatting.dll
 D:\GitHub\Clicker\Clicker\bin\System.Web.Helpers.dll
 D:\GitHub\Clicker\Clicker\bin\System.Web.Http.dll
@@ -141,6 +144,9 @@ D:\GitHub\Clicker\Clicker\bin\System.Web.WebPages.Deployment.dll
 D:\GitHub\Clicker\Clicker\bin\System.Web.WebPages.dll
 D:\GitHub\Clicker\Clicker\bin\System.Web.WebPages.Razor.dll
 D:\GitHub\Clicker\Clicker\bin\WebGrease.dll
+D:\GitHub\Clicker\Clicker\bin\DataAccess.pdb
+D:\GitHub\Clicker\Clicker\bin\Entities.pdb
+D:\GitHub\Clicker\Clicker\bin\Services.pdb
 D:\GitHub\Clicker\Clicker\bin\Microsoft.AI.DependencyCollector.xml
 D:\GitHub\Clicker\Clicker\bin\Microsoft.AI.ServerTelemetryChannel.xml
 D:\GitHub\Clicker\Clicker\bin\Microsoft.AI.Web.xml
@@ -176,9 +182,3 @@ D:\GitHub\Clicker\Clicker\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.csprojResolveAssemblyReference.cache
 D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.dll
 D:\GitHub\Clicker\Clicker\obj\Debug\Clicker.pdb
-D:\GitHub\Clicker\Clicker\bin\DataAccess.dll
-D:\GitHub\Clicker\Clicker\bin\Entities.dll
-D:\GitHub\Clicker\Clicker\bin\Services.dll
-D:\GitHub\Clicker\Clicker\bin\DataAccess.pdb
-D:\GitHub\Clicker\Clicker\bin\Entities.pdb
-D:\GitHub\Clicker\Clicker\bin\Services.pdb

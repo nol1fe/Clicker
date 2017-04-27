@@ -35,6 +35,7 @@
 
     var showDescription;
 
+
     $(function () {
         gameInitialization();
         mainToast.on('click', function (e) {
@@ -61,6 +62,7 @@
             clearInterval(showDescription);
         });
         
+        $("#aSaveGame").on("click", saveGame);
 
         $(document).on("click", function () {
             // test
